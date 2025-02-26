@@ -1,9 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
-
-<?php
+$insert = false; 
 //INSERT INTO `notes` (`sno`, `title`, `description`, `tstamp`) VALUES (NULL, 'Buy books', 'buy books from us', current_timestamp());
  $servername = "localhost";
  $username = "root";
@@ -17,21 +13,19 @@ ini_set('display_errors', 1);
  if (!$conn) {
      die("Connection failed: " . mysqli_connect_error());
  }
- if($_SERVER['REQUEST_METHOD']== 'POST'){
-  $title=$_POST['title'];
-  $description=$_POST['description'];
-  $sql= "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description')";
-  $result= mysqli_query($conn,$sql);
+ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    
+    $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description')";
+    $result = mysqli_query($conn, $sql);
 
-if($result){
- echo "The value is insert successfully";
-
-
+    if ($result) {
+        $insert = true; // This is correct, but ensure the query is successful
+    } else {
+        echo "Error inserting data: " . mysqli_error($conn);
+    }
 }
-else{
-    echo "Error push data. Check your code again".mysqli_error($conn);
-}
- }
  ?>
 
 <!doctype html>
@@ -84,11 +78,27 @@ else{
   <!--  Navbar end here -->
 
 
+
+  <!--  alert start here -->
+     <?php
+if ($insert) {
+    echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+            <strong>Success!</strong> Your note has been inserted successfully.
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+}
+?>
+
+  <!--  alert end here -->
+
+
+
+
   <!-- Form start here -->
 
   <div class="container my-4">
     <h2>Add a note</h2>
-    <form action="index.php" method="post">
+    <form action="/CRUD/Project-1-PHP-CRUD/index.php" method="post">
     <div class="mb-3">
         <label for="title" class="form-label">Note Title</label>
         <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
