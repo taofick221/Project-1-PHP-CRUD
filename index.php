@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
+<?php
 //INSERT INTO `notes` (`sno`, `title`, `description`, `tstamp`) VALUES (NULL, 'Buy books', 'buy books from us', current_timestamp());
  $servername = "localhost";
  $username = "root";
@@ -11,6 +16,21 @@
  // Check connection
  if (!$conn) {
      die("Connection failed: " . mysqli_connect_error());
+ }
+ if($_SERVER['REQUEST_METHOD']== 'POST'){
+  $title=$_POST['title'];
+  $description=$_POST['description'];
+  $sql= "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description')";
+  $result= mysqli_query($conn,$sql);
+
+if($result){
+ echo "The value is insert successfully";
+
+
+}
+else{
+    echo "Error push data. Check your code again".mysqli_error($conn);
+}
  }
  ?>
 
@@ -68,14 +88,14 @@
 
   <div class="container my-4">
     <h2>Add a note</h2>
-    <form>
-      <div class="mb-3">
+    <form action="index.php" method="post">
+    <div class="mb-3">
         <label for="title" class="form-label">Note Title</label>
         <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
       </div>
       <div class="mb-3">
-        <label for="desc" class="form-label">Note description</label>
-        <textarea class="form-control" id="desc" name="desc" rows="5" placeholder="Enter your note here"></textarea>
+        <label for="description" class="form-label">Note description</label>
+        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Enter your note here"></textarea>
       </div>
 
 
