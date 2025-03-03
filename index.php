@@ -39,14 +39,43 @@ $insert = false;
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+    <title>Project 1 PHP CRUD</title>
 
-  <title>Project 1 PHP CRUD</title>
 </head>
 
 <body>
+  
+
+  <!-- Modal start here -->
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+Edit Modal</button>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Modal end here -->
 
 
-  <!--  -->
+
+
   <!-- Navbar start here -->
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -91,6 +120,7 @@ if ($insert) {
 
   <!--  alert end here -->
 
+  <!--   -->
 
 
 
@@ -116,8 +146,8 @@ if ($insert) {
 
 
   <!-- data table start here -->
-  <div class="container">
-    <table class="table">
+  <div class="container  my-4">
+    <table class="table" id="myTable">
       <thead>
         <tr>
           <th scope="col">S.NO</th>
@@ -137,13 +167,15 @@ if ($insert) {
          if (!$result) {
              die("Query failed: " . mysqli_error($conn));
          }
-         
+         $sno=0;
          while ($row = mysqli_fetch_assoc($result)) {
+          $sno=$sno+1;
           echo "<tr>
-          <th scope='row'>" . $row['sno'] . "</th>
+          <th scope='row'>" . $sno . "</th>
           <td>" . $row['title'] . "</td>
           <td>" . $row['description'] . "</td>
-          <td>Action</td>
+          <td><a href='/edit'>Edit</a> <a href='/del'>Delete</a> </td>
+          
         </tr>";
          }
          ?>
@@ -152,6 +184,7 @@ if ($insert) {
       </tbody>
     </table>
   </div>
+  <hr>
     <!-- data table end here -->
 
 
@@ -171,6 +204,13 @@ if ($insert) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     -->
+
+    <script 
+    src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous">
+  </script>
+      <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+     <script>let table = new DataTable('#myTable');</script>
+
 </body>
 
 </html>
